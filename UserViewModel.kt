@@ -12,8 +12,11 @@ class UserViewModel:ViewModel() {
     var apellidoReg by mutableStateOf("")
     var edadReg by mutableStateOf("")
     var generoReg by mutableStateOf("")
-
-
+    var pesoReg by mutableStateOf("")
+    var estatura by mutableStateOf("")
+    var ejercita by mutableStateOf(false)
+    var pesoD by mutableStateOf("")
+    var gains = 0
 
     fun setUser(newUser: String){
         userReg = newUser
@@ -35,4 +38,17 @@ class UserViewModel:ViewModel() {
     fun setGenero(newGen:String){
         generoReg = newGen
     }
+    fun setPeso(newPeso:String){
+        pesoReg = newPeso
+    }
+    fun setAltura(newAltura:String){
+        estatura = newAltura
+    }
+    fun setEjericio(newEjercicio:Boolean){
+        ejercita = newEjercicio
+    }
+    fun setpesoD(newPesoD:String){
+        pesoD = newPesoD
+    }
+
 }

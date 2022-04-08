@@ -126,6 +126,9 @@ fun RegisterTextField(
     )
 }
 
+
+
+
 @Composable
 fun Registrar1(userViewModel: UserViewModel) {
     Column(
@@ -167,23 +170,34 @@ fun Registrar1(userViewModel: UserViewModel) {
 }
 
 @Composable
-fun Registrar2() {
+fun Registrar2(userViewModel: UserViewModel) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row() {
+        Row(Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center) {
+            RegisterTextField(
+                label = "Peso (kg)",
+                value = userViewModel.pesoReg,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                onValueChanged = { userViewModel.setPeso(it)})
 
-            OutlinedTextField(value = "Peso (kg)", onValueChange = {})
         }
-        Row() {
-            OutlinedTextField(value = "Estatura (cm)", onValueChange = {})
+        Row(Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center) {
+            RegisterTextField(
+                label = "Estatura (cm)",
+                value = userViewModel.pesoReg,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                onValueChanged = { userViewModel.setPeso(it)})
+
         }
-        Row() {
-            Text(text = "Reliza actividad fisica: ")
-            Checkbox(checked = false, onCheckedChange = {})
-        }
+
+
         Row(
             Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -197,7 +211,7 @@ fun Registrar2() {
 }
 
 @Composable
-fun Registrar3() {
+fun Registrar3(userViewModel: UserViewModel) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -208,12 +222,18 @@ fun Registrar3() {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Row() {
-                OutlinedTextField(value = "Peso deseado", onValueChange = {})
-            }
+
+            RegisterTextField(label = "Peso Deseado", value = userViewModel.pesoD, onValueChanged = {userViewModel.setpesoD(it)})
+
         }
-
-
+        Row(Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center) {
+            Text(text = "Reliza actividad fisica: ")
+            Checkbox(
+                checked = userViewModel.ejercita,
+                onCheckedChange = { userViewModel.setEjericio(it) })
+        }
         Row(
             Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -339,16 +359,26 @@ fun UserProfile(userViewModel: UserViewModel) {
         }
         Row() {
             Column() {
-                Text(text = "Peso actual: " + userViewModel.edadReg)
+                Text(text = "Peso actual: " + userViewModel.pesoReg)
             }
             Column() {
-                Text(text = "Peso deseado: pesoD")
+                Text(text = "Peso deseado: " + userViewModel.pesoD)
             }
         }
         Row(Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center) {
-            Text(text = "Progreso: abs(peso-pesod)")
+            if (userViewModel.pesoReg.toInt() >= userViewModel.pesoD.toInt())
+                Text(
+                    text = "Progreso: " + (userViewModel.pesoReg.toInt() - userViewModel.pesoD.toInt()),
+                    modifier = Modifier.padding(15.dp)
+                )
+            else {
+                Text(
+                    text = "Progreso: " + (-userViewModel.pesoReg.toInt() + userViewModel.pesoD.toInt()),
+                    modifier = Modifier.padding(15.dp)
+                )
+            }
         }
         Row(
             Modifier
