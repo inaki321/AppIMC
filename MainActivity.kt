@@ -193,10 +193,18 @@ fun Registrar2(userViewModel: UserViewModel) {
                 label = "Estatura (cm)",
                 value = userViewModel.pesoReg,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                onValueChanged = { userViewModel.setPeso(it)})
+                onValueChanged = { userViewModel.setPeso(it)}
+            )
 
         }
-
+        Row(Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center) {
+            Text(text = "Reliza actividad fisica: ")
+            Checkbox(
+                checked = userViewModel.ejercita,
+                onCheckedChange = { userViewModel.setEjericio(it) })
+        }
 
         Row(
             Modifier.fillMaxWidth(),
@@ -226,14 +234,34 @@ fun Registrar3(userViewModel: UserViewModel) {
             RegisterTextField(label = "Peso Deseado", value = userViewModel.pesoD, onValueChanged = {userViewModel.setpesoD(it)})
 
         }
-        Row(Modifier.fillMaxWidth(),
+        Row(
+            Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center) {
-            Text(text = "Reliza actividad fisica: ")
-            Checkbox(
-                checked = userViewModel.ejercita,
-                onCheckedChange = { userViewModel.setEjericio(it) })
+            horizontalArrangement = Arrangement.Center
+        ) {
+
+            RegisterTextField(
+                label = "User Name",
+                value = userViewModel.userReg,
+                onValueChanged = { userViewModel.setUser(it) })
         }
+        Row(
+            Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+
+            RegisterTextField(
+                label = "Password",
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                value = userViewModel.pwd,
+                onValueChanged = {userViewModel.setPassword(it)}
+            )
+        }
+
+
+
         Row(
             Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
