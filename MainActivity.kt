@@ -193,7 +193,7 @@ fun Registrar2(userViewModel: UserViewModel) {
                 label = "Estatura (cm)",
                 value = userViewModel.pesoReg,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                onValueChanged = { userViewModel.setPeso(it)}
+                onValueChanged = { userViewModel.setAltura(it)}
             )
 
         }
