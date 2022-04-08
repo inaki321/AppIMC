@@ -1,46 +1,56 @@
-package mx.edu.up.proyecto
+package mx.edu.up.fitnnesapp
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import mx.edu.up.proyecto.ui.theme.ProyectoTheme
+import mx.edu.up.fitnnesapp.ui.theme.FitnnesappTheme
 
 class MainActivity : ComponentActivity() {
+    private val userViewModel by viewModels<UserViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ProyectoTheme {
+            FitnnesappTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    InicioSesion()
+                    InicioSesion(userViewModel = UserViewModel())
                 }
             }
         }
     }
 }
 
+
 @Composable
 fun Logo() {
     Column() {
         Row() {
-            Image(painter = painterResource(id = R.drawable.pesaimg), contentDescription = "Logo")
+            //Image(painter = painterResource(id = R.drawable.pesaimg), contentDescription = "Logo")
         }
         Row(
-            Modifier.fillMaxWidth(),
+            Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
@@ -64,19 +74,32 @@ fun Logo() {
 }
 
 @Composable
-fun InicioSesion() {
+fun InicioSesion(userViewModel: UserViewModel) {
     Column(Modifier.fillMaxSize()) {
-        Image(painter = painterResource(id = R.drawable.gymlogin), contentDescription = "Login")
-
+        //Image(painter = painterResource(id = R.drawable.gymlogin), contentDescription = "Login")
         Column(Modifier.padding(15.dp)) {
-            OutlinedTextField(value = "User", onValueChange = {})
-            OutlinedTextField(value = "Password", onValueChange = {})
+
+            RegisterTextField(
+                label = "User Name",
+                value = userViewModel.userReg,
+                onValueChanged = { userViewModel.setUser(it) })
+            RegisterTextField(
+                label = "Password",
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                value = userViewModel.pwd,
+                onValueChanged = {userViewModel.setPassword(it)}
+            )
             Row(
                 Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                Button(onClick = { /*TODO*/ }, modifier = Modifier.weight(2f)) {
+                Button(
+                    onClick = { /*TODO*/ },
+                    modifier = Modifier.weight(2f),
+                    enabled = userViewModel.userReg.isNotBlank() && userViewModel.pwd.isNotBlank()
+                ) {
                     Text(text = "Submit")
                 }
             }
@@ -84,28 +107,59 @@ fun InicioSesion() {
 
     }
 }
+@Composable
+fun RegisterTextField(
+    label: String,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    value: String,
+    onValueChanged:(String) -> Unit
+) {
+
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChanged,
+        label = { Text(text = label)},
+        visualTransformation = visualTransformation,
+        keyboardOptions = keyboardOptions,
+        modifier = Modifier.padding(10.dp)
+    )
+}
 
 @Composable
-fun Registrar1() {
+fun Registrar1(userViewModel: UserViewModel) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        OutlinedTextField(value = "Nombre", onValueChange = {}, modifier = Modifier.padding(10.dp))
-        OutlinedTextField(
-            value = "Apellido",
-            onValueChange = {},
-            modifier = Modifier.padding(10.dp)
-        )
-        OutlinedTextField(value = "Edad", onValueChange = {}, modifier = Modifier.padding(10.dp))
-        OutlinedTextField(value = "Sexo", onValueChange = {}, modifier = Modifier.padding(10.dp))
+        RegisterTextField(
+            label = "Nombre",
+            value = userViewModel.nameReg,
+            onValueChanged = { userViewModel.setNombre(it) })
+        RegisterTextField(
+            label = "Apellido",
+            value = userViewModel.apellidoReg,
+            onValueChanged = { userViewModel.setApellido(it) })
+        RegisterTextField(
+            label = "Edad",
+            value = userViewModel.edadReg,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChanged = { userViewModel.setEdad(it)})
+        RegisterTextField(
+            label = "Genero",
+            value = userViewModel.generoReg,
+            onValueChanged = { userViewModel.setGenero(it) })
         Row(
             Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Button(onClick = { /*TODO*/ }, modifier = Modifier.weight(2f)) {
+            Button(
+                onClick = { /*TODO*/ },
+                modifier = Modifier.weight(2f),
+                enabled = userViewModel.nameReg.isNotBlank() && userViewModel.apellidoReg.isNotBlank() && userViewModel.edadReg.isNotBlank()
+            ) {
                 Text(text = "Guardar y continuar")
             }
         }
@@ -154,22 +208,11 @@ fun Registrar3() {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Column() {
-                Text(text = "Bajar de Peso")
-                Checkbox(checked = false, onCheckedChange = {})
-            }
-            Column() {
-                Text(text = "Mantener de Peso")
-                Checkbox(checked = false, onCheckedChange = {})
-            }
-            Column() {
-                Text(text = "Subir de Peso")
-                Checkbox(checked = false, onCheckedChange = {})
+            Row() {
+                OutlinedTextField(value = "Peso deseado", onValueChange = {})
             }
         }
-        Row() {
-            OutlinedTextField(value = "Peso deseado", onValueChange = {})
-        }
+
 
         Row(
             Modifier.fillMaxWidth(),
@@ -286,16 +329,17 @@ fun FoodSelection() {   //lista de comida que tendremos en base de datos
 }
 
 @Composable
-fun UserProfile() {
+fun UserProfile(userViewModel: UserViewModel) {
     Column(Modifier.padding(50.dp)) {
         Row(Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center) {
-            Text(text = "Nombre, edad")
+            Text(userViewModel.userReg)
+            Text(userViewModel.edadReg)
         }
         Row() {
             Column() {
-                Text(text = "Peso actual: peso")
+                Text(text = "Peso actual: " + userViewModel.edadReg)
             }
             Column() {
                 Text(text = "Peso deseado: pesoD")
@@ -306,7 +350,10 @@ fun UserProfile() {
             horizontalArrangement = Arrangement.Center) {
             Text(text = "Progreso: abs(peso-pesod)")
         }
-        Row(Modifier.fillMaxWidth().weight(1f, false),
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .weight(1f, false),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center) {
             Button(onClick = { /*TODO*/ }, modifier = Modifier.size(width = 150.dp,height = 35.dp)) {
@@ -320,7 +367,7 @@ fun UserProfile() {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    ProyectoTheme {
-        Logo()
+    FitnnesappTheme {
+        InicioSesion(userViewModel = UserViewModel())
     }
 }
