@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    InicioSesion(userViewModel = UserViewModel())
+                    Logo(userViewModel = UserViewModel())
                 }
             }
         }
@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun Logo() {
+fun Logo(userViewModel: UserViewModel) {
     Column() {
         Row() {
             //Image(painter = painterResource(id = R.drawable.pesaimg), contentDescription = "Logo")
@@ -320,15 +320,15 @@ fun Inicio() {
 }
 
 @Composable
-fun IMC() {
+fun IMC(userViewModel: UserViewModel) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row() {
-            Text(text = "Tu IMC actual es: ")
-            Text(text = "placeholderIMC")
+            Text(text = "Tu IMC actual es: " + (userViewModel.pesoReg.toInt() / (userViewModel.estatura.toInt() * userViewModel.estatura.toInt())))
+
         }
         Row(modifier = Modifier
             .weight(1f, false)) {
@@ -341,12 +341,13 @@ fun IMC() {
 }
 
 @Composable
-fun TrackCalorias() {
+fun TrackCalorias(userViewModel: UserViewModel) {
+
     Column(
         modifier = Modifier.fillMaxSize()) {
         Row() {
             Text(text = "Tu cuenta de calorias es: ")
-            Text(text = "placeholderCAL")
+            Text(text = "${userViewModel.klCalorias}")
         }
         Row() {
             LazyColumn(content = {}) //se mostrara una lista de la comida
@@ -354,7 +355,7 @@ fun TrackCalorias() {
         Row(modifier = Modifier
             .weight(1f, false)) {
             Button(
-                onClick = { /*TODO*/ },
+                onClick = {},
                 modifier = Modifier.size(width = 200.dp, height = 60.dp)
             ) {
                 Text(text = "Lista de comida") //Boton que manda a la pantalla de la lista de comida
@@ -365,13 +366,98 @@ fun TrackCalorias() {
 }
 
 @Composable
-fun FoodSelection() {   //lista de comida que tendremos en base de datos
+fun FoodSelection(userViewModel: UserViewModel) {   //lista de comida que tendremos en base de datos
+
     Row() {
-        //Image(painter = painterResource(id = R.drawable.gato ), contentDescription ="comida" )
-        Text(text = "Comida")
-        Text(text = "Calorias")
-        Button(onClick = { /*TODO*/ }) {
-            Text(text = "+")
+        Column() {
+            Text(text = "Pechuga Asada (100g) o 1 taza")
+        }
+        Column() {
+            Text(text = "164")
+
+        }
+        Column() {
+            Button(onClick = { userViewModel.setCalorias(164) }) {
+                Text(text = "+")
+            }
+        }
+    }
+    Row() {
+        Column() {
+            Text(text = "Arroz (100g o 1 taza)")
+        }
+        Column() {
+            Text(text = "130")
+
+        }
+        Column() {
+            Button(onClick = { userViewModel.setCalorias(130) }) {
+                Text(text = "+")
+            }
+        }
+    }
+    Row() {
+        Column() {
+            Text(text = "Frijoles (100g o 1 taza)")
+        }
+        Column() {
+            Text(text = "347")
+
+        }
+        Column() {
+            Button(onClick = { userViewModel.setCalorias(347) }) {
+                Text(text = "+")
+            }
+        }
+    }
+    Row() {
+        Column() {
+            Text(text = "Pescado (100g o 1 taza)")
+        }
+        Column() {
+            Text(text = "206")
+
+        }
+        Column() {
+            Button(onClick = { userViewModel.setCalorias(206) }) {
+                Text(text = "+")
+            }
+        }
+    }
+    Row() {
+        Column() {
+            Text(text = "Pasta Sola (100g o 1 taza)")
+        }
+        Column() {
+            Text(text = "131")
+        }
+        Column() {
+            Button(onClick = { userViewModel.setCalorias(131) }) {
+                Text(text = "+")
+            }
+        }
+    }
+    Row() {
+        Column() {
+            Text(text = "Proteina Isopure (1 medida o 1 scoop)")
+        }
+        Column() {
+            Text(text = "100")
+        }
+        Column() {
+            Button(onClick = { userViewModel.setCalorias(100) }) {
+                Text(text = "+")
+            }
+        }
+    }
+    Row() {
+        Column() {
+            Text(text = "Reiniciar mis calorias")
+        }
+        Column() {
+            Button(onClick = { userViewModel.resetCalorias(0) }) {
+                Text(text = "Reset")
+            }
         }
     }
 }

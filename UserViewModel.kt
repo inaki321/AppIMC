@@ -16,7 +16,7 @@ class UserViewModel:ViewModel() {
     var estatura by mutableStateOf("")
     var ejercita by mutableStateOf(false)
     var pesoD by mutableStateOf("")
-    var gains = 0
+    var klCalorias by mutableStateOf(0)
 
     fun setUser(newUser: String){
         userReg = newUser
@@ -50,5 +50,10 @@ class UserViewModel:ViewModel() {
     fun setpesoD(newPesoD:String){
         pesoD = newPesoD
     }
-
+    fun setCalorias(newCaloria:Int){
+        klCalorias += newCaloria
+    }
+    fun resetCalorias(reset:Int){
+        klCalorias = 0
+    }
 }
