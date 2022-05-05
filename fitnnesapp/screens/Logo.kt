@@ -21,7 +21,9 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import mx.edu.up.fitnnesapp.R
 import mx.edu.up.fitnnesapp.UserViewModel
+import mx.edu.up.fitnnesapp.fetchA
 import mx.edu.up.fitnnesapp.navigation.AppScreens
 
 
@@ -29,7 +31,7 @@ import mx.edu.up.fitnnesapp.navigation.AppScreens
 fun Logo(navController: NavController) {
     Column() {
         Row() {
-            //Image(painter = painterResource(id = R.drawable.pesaimg), contentDescription = "Logo")
+            Image(painter = painterResource(id = R.drawable.pesaimg), contentDescription = "Logo")
         }
         Row(
             Modifier
@@ -40,6 +42,9 @@ fun Logo(navController: NavController) {
         ) {
             Button(onClick = {navController.navigate(route = AppScreens.InicioSesion.route)}) {
                 Text(text = "Iniciar Sesion")
+            }
+            Button(onClick = {fetchA()}) {
+                Text(text = "json")
             }
         }
         Row(

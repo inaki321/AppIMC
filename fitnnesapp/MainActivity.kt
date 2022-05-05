@@ -23,6 +23,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import mx.edu.up.fitnnesapp.navigation.AppNavigation
 import mx.edu.up.fitnnesapp.ui.theme.FitnnesappTheme
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.Call
+import retrofit2.http.Body
+import retrofit2.http.POST
+import android.util.Log
+import com.google.gson.Gson
+import retrofit2.Callback
+
 
 
 class MainActivity : ComponentActivity() {
@@ -43,12 +55,16 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+interface UserService{
+    @GET("serverApps/")
+    fun listUsers(): Call<List<UserDataCollectionItem>>
+}
 
 @Composable
 fun Logo(userViewModel: UserViewModel) {
     Column() {
         Row() {
-            //Image(painter = painterResource(id = R.drawable.pesaimg), contentDescription = "Logo")
+            Image(painter = painterResource(id = R.drawable.pesaimg), contentDescription = "Logo")
         }
         Row(
             Modifier
@@ -79,7 +95,7 @@ fun Logo(userViewModel: UserViewModel) {
 @Composable
 fun InicioSesion(userViewModel: UserViewModel) {
     Column(Modifier.fillMaxSize()) {
-        //Image(painter = painterResource(id = R.drawable.gymlogin), contentDescription = "Login")
+        Image(painter = painterResource(id = R.drawable.gymlogin), contentDescription = "Login")
         Column(Modifier.padding(15.dp)) {
 
             RegisterTextField(

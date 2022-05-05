@@ -21,6 +21,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import mx.edu.up.fitnnesapp.R
 import mx.edu.up.fitnnesapp.screens.RegisterTextField
 import mx.edu.up.fitnnesapp.UserViewModel
 import mx.edu.up.fitnnesapp.navigation.AppScreens
@@ -29,7 +30,7 @@ import mx.edu.up.fitnnesapp.navigation.AppScreens
 @Composable
 fun InicioSesion(userViewModel: UserViewModel, navController: NavController) {
     Column(Modifier.fillMaxSize()) {
-        //Image(painter = painterResource(id = R.drawable.gymlogin), contentDescription = "Login")
+        Image(painter = painterResource(id = R.drawable.gymlogin), contentDescription = "Login")
         Column(Modifier.padding(15.dp)) {
 
             RegisterTextField(
