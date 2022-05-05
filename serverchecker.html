@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Page Title</title>
+</head>
+
+<body>
+
+    <h1>Fetching</h1>
+    <script>
+        console.log('hola ')
+        async function getData() {
+            url = 'http://localhost:3000/listajsons.php'
+            const data = await fetch(url, {
+                method: 'GET'
+            }).then(
+                res => res.json()
+            );
+            return data;
+        }
+        (async () => {
+            console.log(await getData())
+        })()
+    </script>
+
+</body>
+
+</html>
